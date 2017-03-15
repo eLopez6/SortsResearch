@@ -1,7 +1,3 @@
-
-import java.text.ParseException;
-import java.util.Calendar;
-
 /**
  * Utility class that contains sorting methods.
  *
@@ -73,7 +69,7 @@ public class Sorting {
      * @param arr The sub-array being sorted
      * @param first The first element of the defined sub-array
      * @param last The last element of the defined sub-array
-     * @return
+     * @return the end of the left partition of the sort
      */
     private static int partition(int[] arr, int first, int last) {
         
@@ -90,7 +86,7 @@ public class Sorting {
             do {
                 j--;
             } while (arr[j] > pivot);
-            //Decerements j until a value smaller than the pivot is found 
+            //Decrements j until a value smaller than the pivot is found
 
             if (i < j) {
                 swap(arr, i, j); //Swaps the elements in the array 
@@ -166,17 +162,6 @@ public class Sorting {
                                 //HELPER METHODS//
 
     
-    /**
-     * Helper method that checks the time in milliseconds based on its call.
-     *
-     * @return The milliseconds at the time of the call.
-     * @throws ParseException If the date cannot be parsed from the time format.
-     */
-//    private static long System.nanoTime() {
-//        Calendar cal = Calendar.getInstance();
-//        return cal.getTimeInMillis();
-//    }
-
     /**
      * Switches the elements of two indexes in an array.
      *
