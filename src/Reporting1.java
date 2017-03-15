@@ -15,8 +15,6 @@ public class Reporting1 {
     public static void main(String[] args) {
                                 
         int[] sizes = {1000, 10000, 100000, 1000000}; //Test sizes
-        
-        
         long[] trys = new long[10];
         
         //HeapSort
@@ -25,33 +23,27 @@ public class Reporting1 {
             hsRandomTest(size, trys);
         
         System.out.println('\n');
-        trys = new long[10];
         for (int size : sizes) 
             hsSortedTest(size);
         
         System.out.println('\n');
-        trys = new long[10];
         for (int size : sizes) 
             hsReverseTest(size);
         
         
         //QuickSort
         System.out.println('\n');
-        trys = new long[10];
         System.out.println("QuickSort");
         for (int size : sizes)
             qsRandomTest(size, trys);
         
         System.out.println('\n');
-        trys = new long[10];
         for (int size : sizes) 
-            qsSortedTest(size, trys);
+            qsSortedTest(size);
         
         System.out.println('\n');
-        trys = new long[10];
         for (int size : sizes) 
-            qsReverseTest(size, trys);
-        
+            qsReverseTest(size);
             
         System.out.println('\n');
         
@@ -62,14 +54,12 @@ public class Reporting1 {
             msRandomTest(size, trys);
         
         System.out.println('\n');
-        trys = new long[10];
         for (int size : sizes) 
-            msSortedTest(size, trys);
+            msSortedTest(size);
         
         System.out.println('\n');
-        trys = new long[10];
         for (int size : sizes) 
-            msReverseTest(size, trys);
+            msReverseTest(size);
                  
     }
     
@@ -77,45 +67,32 @@ public class Reporting1 {
      * Creates an array of random values, which can be controlled by the 
      * parameters.
      * @param length The length of the array
-     * @param lowerBound The smallest value allowed in the array. 
-     * @param upperBound The largest value allowed in the array. 
      * @return An unsorted array. 
      */
-    private static int[] createRandomArray(int length, int lowerBound,
-            int upperBound) {
+    private static int[] createRandomArray(int length) {
 
         int[] randomArr = new int[length];
         Random randomNumber = new Random();       
         int randInt;
- 
-
-        if (lowerBound > upperBound) 
-            throw new IllegalStateException("Lower bound cannot be larger "
-                    + "than upper bound.");
 
         for (int i = 0; i < length; i++) {
-            randInt = randomNumber.nextInt(upperBound);
-            if (randInt < lowerBound)
-                randInt = lowerBound;            
+            randInt = randomNumber.nextInt(100);
+            if (randInt < 0)
+                randInt = 0;
 
             randomArr[i] = randInt;
         }
         return randomArr;
     }
-    
-    
-    
+
     /**
      * Creates a pre-sorted array, which can be controlled by the parameters. 
      * @param length The length of the array
-     * @param lowerBound The smallest value allowed in the array. 
-     * @param upperBound The largest value allowed in the array. 
      * @return The pre-sorted array. 
      */
-    private static int[] createSortedArray(int length, int lowerBound,
-            int upperBound) {
+    private static int[] createSortedArray(int length) {
         
-        int[] primSort = createRandomArray(length, lowerBound, upperBound);
+        int[] primSort = createRandomArray(length);
         Integer[] sortArr = new Integer[length];
         
         for (int i = 0; i < length; i++)
@@ -132,14 +109,11 @@ public class Reporting1 {
     /**
      * Creates a reverse-sorted array, which can be controlled by the parameters
      * @param length The length of the array
-     * @param lowerBound The smallest value allowed in the array. 
-     * @param upperBound The largest value allowed in the array. 
      * @return The reverse-sorted array. 
      */
-    private static int[] createReverseArray(int length, int lowerBound,
-            int upperBound) {
+    private static int[] createReverseArray(int length) {
 
-        int[] primSort = createRandomArray(length, lowerBound, upperBound);
+        int[] primSort = createRandomArray(length);
         Integer[] reverseArr = new Integer[length];
         
         for (int i = 0; i < length; i++) 
@@ -154,8 +128,7 @@ public class Reporting1 {
     }
     
     /**
-     * Finds the mean value of an array. 
-     * @param arr The array from which the mean will be generated
+     * Finds the mean value of an array.
      * @return The mean value of the array. 
      */
     private static double meanVal(long[] samples){
@@ -168,8 +141,7 @@ public class Reporting1 {
     }
     
     /**
-     * Gets the Variance of an array based on the mean. 
-     * @param arr The array being checked
+     * Gets the Variance of an array based on the mean.
      * @param mean The mean of the array 
      * @return The variance of the array 
      */
@@ -184,13 +156,13 @@ public class Reporting1 {
     
     /**
      * HeapSort on a random array. 
-     * @param size The size of the array 
-     * @param trys 
+     * @param size The size of the array in the test The size of the array in the test 
+     * @param trys The array that stores the runtime of each sort
      */
     private static void hsRandomTest(int size, long[] trys){
         double mean;
         for (int i = 0; i < 10; i++){
-            int[] temp = createRandomArray(size, 0, 100);
+            int[] temp = createRandomArray(size);
             trys[i] = Sorting.heapSort(temp);
         }
         mean = meanVal(trys);
@@ -200,15 +172,14 @@ public class Reporting1 {
     
     /**
      * HeapSort on a sorted array
-     * @param size
-     * @param trys 
+     * @param size The size of the array in the test 
      */
     private static void hsSortedTest(int size){
         long median;
         long[] runs = new long[3];
         
         for (int i = 0; i < 3; i++){
-            int[] temp = createSortedArray(size, 0, 100);
+            int[] temp = createSortedArray(size);
             runs[i] = Sorting.heapSort(temp);
         }
         median = getMedianOfThree(runs);
@@ -217,15 +188,14 @@ public class Reporting1 {
     
     /**
      * HeapSort on a reversed sorted array
-     * @param size
-     * @param trys 
+     * @param size The size of the array in the test The size of the array in the test 
      */
     private static void hsReverseTest(int size){
         long median;
         long[] runs = new long[3];
         
         for (int i = 0; i < 3; i++) {
-            int[] temp = createReverseArray(size, 0, 100);
+            int[] temp = createReverseArray(size);
             runs[i] = Sorting.heapSort(temp);
         }
         median = getMedianOfThree(runs);
@@ -236,13 +206,13 @@ public class Reporting1 {
     
     /**
      * QuickSort on a random array. 
-     * @param size The size of the array 
-     * @param trys 
+     * @param size The size of the array in the test The size of the array in the test in the test 
+     * @param trys The array that stores the runtime of each sort 
      */
     private static void qsRandomTest(int size, long[] trys){
         double mean;
         for (int i = 0; i < 10; i++){
-            int[] temp = createRandomArray(size, 0, 100);
+            int[] temp = createRandomArray(size);
             trys[i] = Sorting.quickSort(temp);
         }
         mean = meanVal(trys);
@@ -252,15 +222,14 @@ public class Reporting1 {
     
     /**
      * QuickSort on a sorted array
-     * @param size
-     * @param trys 
+     * @param size The size of the array in the test The size of the array in the test in the test
      */
-    private static void qsSortedTest(int size, long[] trys){
+    private static void qsSortedTest(int size){
         long median;
         long[] runs = new long[3];
         
         for (int i = 0; i < 3; i++){
-            int[] temp = createSortedArray(size, 0, 100);
+            int[] temp = createSortedArray(size);
             runs[i] = Sorting.quickSort(temp);
         }
         median = getMedianOfThree(runs);
@@ -269,15 +238,14 @@ public class Reporting1 {
     
     /**
      * QuickSort on a reversed sorted array
-     * @param size
-     * @param trys 
+     * @param size The size of the array in the test The size of the array in the test in the test
      */
-    private static void qsReverseTest(int size, long[] trys){
+    private static void qsReverseTest(int size){
         long median;
         long[] runs = new long[3];
         
         for (int i = 0; i < 3; i++) {
-            int[] temp = createReverseArray(size, 0, 100);
+            int[] temp = createReverseArray(size);
             runs[i] = Sorting.quickSort(temp);
             
         }
@@ -285,16 +253,15 @@ public class Reporting1 {
         System.out.println("Reversed: " + size + " Median Runtime: " + median);
     }
     
-    
     /**
      * MergeSort on a random array. 
-     * @param size The size of the array 
-     * @param trys 
+     * @param size The size of the array in the test The size of the array in the test 
+     * @param trys The array that stores the runtime of each sort
      */
     private static void msRandomTest(int size, long[] trys){
         double mean;
         for (int i = 0; i < 10; i++){
-            int[] temp = createRandomArray(size, 0, 100);
+            int[] temp = createRandomArray(size);
             trys[i] = Sorting.mergeSort(temp); 
         }
         mean = meanVal(trys);
@@ -304,15 +271,14 @@ public class Reporting1 {
     
     /**
      * MergeSort on a sorted array
-     * @param size
-     * @param trys 
+     * @param size The size of the array in the test The size of the array in the test in the test
      */
-    private static void msSortedTest(int size, long[] trys){
+    private static void msSortedTest(int size){
         long median;
         long[] runs = new long[3];
         
         for (int i = 0; i < 3; i++){
-            int[] temp = createSortedArray(size, 0, 100);
+            int[] temp = createSortedArray(size);
             runs[i] = Sorting.mergeSort(temp);
         }
         median = getMedianOfThree(runs);
@@ -321,15 +287,14 @@ public class Reporting1 {
     
     /**
      * MergeSort on a reversed sorted array
-     * @param size
-     * @param trys 
+     * @param size The size of the array in the test The size of the array in the test in the test
      */
-    private static void msReverseTest(int size, long[] trys){
+    private static void msReverseTest(int size){
         long median;
         long[] runs = new long[3];
         
         for (int i = 0; i < 3; i++) { 
-            int[] temp = createReverseArray(size, 0, 100);
+            int[] temp = createReverseArray(size);
             runs[i] = Sorting.mergeSort(temp);
         }
         median = getMedianOfThree(runs);
@@ -362,7 +327,7 @@ public class Reporting1 {
         } else {
             return b;
         }
-        
+
     }
-    
+
 }

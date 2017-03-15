@@ -1,6 +1,4 @@
-
 import java.io.*;
-import java.util.ArrayList;
 
 /**
  *
@@ -22,17 +20,17 @@ public class Reporting2 {
             return;
         }
 
+        String path = System.getProperty("user.home") + "\\Desktop";    // Finds desktop path of user
+
         String input = args[0]; //Input text file path.
-        String hsOut = "C:\\Users\\ei_lo\\Desktop\\eil11HS.txt";
-        String qsOut = "C:\\Users\\ei_lo\\Desktop\\eil11QS.txt";
-        String msOut = "C:\\Users\\ei_lo\\Desktop\\eil11MS.txt";
+        String hsOut = path + "\\eil11HS.txt";
+        String qsOut = path + "\\eil11QS.txt";
+        String msOut = path + "\\eil11MS.txt";
         
-        readFile(input, hsOut, 0);
-        readFile(input, qsOut, 1);
-        readFile(input, msOut, 2);       
-        
+        sortFile(input, hsOut, 0);
+        sortFile(input, qsOut, 1);
+        sortFile(input, msOut, 2);
     }
-    
     
     /**
      * Reads an input text file, populates an array, sorts the array, and writes 
@@ -40,20 +38,18 @@ public class Reporting2 {
      * @param input Input filename
      * @param output Output filename 
      * @param sortType Number representation of each sort: 0=HS, 1=QS, 2=MS
-     * @throws FileNotFoundException
-     * @throws IOException 
+     * @throws IOException If a file input error occurs
      */
-    private static void readFile(String input, String output, int sortType) throws FileNotFoundException, IOException {
+    private static void sortFile(String input, String output, int sortType) throws IOException {
         String caseId = "eil11";
         BufferedReader br = new BufferedReader(new FileReader(input));
-        ArrayList<Integer> al = new ArrayList<>();
         int[] arr;
         int lineCounter = 0;
         
         /* Counts the number of lines (and therefore, elements) in the input*/
         do {
             lineCounter++;
-        }while(br.readLine() != null);
+        } while (br.readLine() != null);
         arr = new int[lineCounter];        
         
         /* Fills the array based on the int at each line.*/
@@ -65,7 +61,7 @@ public class Reporting2 {
             else
                 break;
         }
-        
+
         long time = 0;
         String sort = "";
         if (sortType == 0) {
@@ -82,26 +78,19 @@ public class Reporting2 {
             time = Sorting.mergeSort(arr);
             sort = "MS ";
         }
-        
-        
-        BufferedWriter bw = new BufferedWriter(new FileWriter(output));
-        PrintWriter pw = new PrintWriter(bw);
-        String outline = sort + caseId + ": " + time + "ms";
+
+
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(output)));
+        String outline = sort + caseId + ": " + time + "ns\n";
         pw.print("");
-        pw.print(outline);
-        
-        
-        for (int num : arr){
-            pw.print(num);
-            pw.println();
-        }
-        
+        pw.println(outline);
+
+        for (int num : arr)
+            pw.println(num);
+
         pw.close();
         System.out.println(outline);
 
     }
-    
-    
-    
     
 }
