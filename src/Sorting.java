@@ -76,7 +76,7 @@ public class Sorting {
      */
     private static int partition(int[] arr, int first, int last) {
         
-        int pivot = arr[(first + last) /2];
+        int pivot = detSelectMedian(arr);
         int i = first - 1;
         int j = last + 1;
 
@@ -225,7 +225,12 @@ public class Sorting {
         }
     }
 
-    private static int detSelect(int[] arr)
+    /**
+     * Implements the Deterministic Selection algorithm to aid in generating a median for an ideal pivot for QuickSort
+     * @param arr the array to be sorted and from which the median will be created
+     * @return the median element
+     */
+    private static int detSelectMedian(int[] arr)
     {
         ArrayList<Integer> babyMedians = new ArrayList<>();
         int medianGroups = (int)Math.ceil((double)(arr.length / 5));  // Calculates the baby median group numbers
@@ -249,6 +254,7 @@ public class Sorting {
 
             babyMedians.add(group.get(5/2));   // median of group
         }
+//        System.gc();
 
         // G_g-1 : lastGSize elements
         if (lastGSize == 1)
