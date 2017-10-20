@@ -1,12 +1,10 @@
-/**
+/*
  * Utility class that contains sorting methods.
  *
  * @author Emilio Lopez
  * @since Java 8 
  * For EECS 233 Data Structures
  */
-
-import java.util.ArrayList;
 
 public class Sorting {
 
@@ -76,7 +74,7 @@ public class Sorting {
      */
     private static int partition(int[] arr, int first, int last) {
         
-        int pivot = detSelectMedian(arr);
+        int pivot = arr[(first + last) / 2];
         int i = first - 1;
         int j = last + 1;
 
@@ -224,60 +222,5 @@ public class Sorting {
             }
         }
     }
-
-    /**
-     * Implements the Deterministic Selection algorithm to aid in generating a median for an ideal pivot for QuickSort
-     * @param arr the array to be sorted and from which the median will be created
-     * @return the median element
-     */
-    private static int detSelectMedian(int[] arr)
-    {
-        ArrayList<Integer> babyMedians = new ArrayList<>();
-        int medianGroups = (int)Math.ceil((double)(arr.length / 5));  // Calculates the baby median group numbers
-        int lastGSize = medianGroups - arr.length;
-
-        if (arr.length == 1)
-            return arr[0];
-
-
-        // G_0, G_1, ... G_g-2 : 5 elements
-        for (int i = 0; i < medianGroups - 1; i++)
-        {
-            ArrayList<Integer> group = new ArrayList<>();
-            int start = i * 5;    // indices of (i * 5) through (i * 5) + 4
-
-            // Creates the group
-            for (int j = start; j < start + 4; j++)
-                group.add(arr[j]);
-
-            group.sort(null);  // (Theta)(5log5) => (Theta)(1)
-
-            babyMedians.add(group.get(5/2));   // median of group
-        }
-//        System.gc();
-
-        // G_g-1 : lastGSize elements
-        if (lastGSize == 1)
-            babyMedians.add(arr[arr.length - 1]);
-        else if (lastGSize == 2)
-            if (arr[arr.length - 2] < arr[arr.length -1])
-                babyMedians.add(arr[arr.length - 2]);
-            else
-                babyMedians.add(arr[arr.length - 1]);
-        // Remaining group has more than 2 elements
-        else{
-            ArrayList<Integer> last = new ArrayList<>();
-            for (int i = medianGroups - 1; i < arr.length; i++)
-                last.add(arr[i]);
-
-            last.sort(null);
-            babyMedians.add(last.get(last.size()/2));
-        }
-
-        babyMedians.sort(null);
-        return babyMedians.get(babyMedians.size()/2);
-    }
-    
-    
 
 }
